@@ -1,0 +1,55 @@
+MFU_CHI_full_scope = {
+    MFU_CHI_full_package_enabled = yes
+    MFU_CHI_cautious_map_war_scope = yes
+}
+MFU_CHI_USA_can_request = {
+    tag = USA
+    exists = yes
+    is_ai = no
+    MFU_CHI_USA_interface_enabled = yes
+    NOT = { has_war_with = CHI }
+    CHI = { MFU_CHI_full_scope = yes has_country_flag = MFU_CHI_initialized }
+}
+MFU_CHI_target_609_valid = {
+
+    MFU_CHI_full_scope = yes
+    controls_state = 608
+    divisions_in_state = { state = 608 size > 5 }
+    609 = {
+        is_core_of = CHI
+        CONTROLLER = {
+            has_war_with = CHI
+            OR = { tag = JAP tag = MAN tag = RCC }
+        }
+        any_neighbor_state = { is_controlled_by = CHI }
+    }
+}
+MFU_CHI_target_597_valid = {
+
+    MFU_CHI_full_scope = yes
+    controls_state = 614
+    divisions_in_state = { state = 614 size > 5 }
+    597 = {
+        is_core_of = CHI
+        CONTROLLER = {
+            has_war_with = CHI
+            OR = { tag = JAP tag = MAN tag = RCC }
+        }
+        any_neighbor_state = { is_controlled_by = CHI }
+    }
+}
+MFU_CHI_objective_valid = {
+    OR = {
+        AND = { check_variable = { MFU_CHI_objective = 609 } MFU_CHI_target_609_valid = yes }
+        AND = { check_variable = { MFU_CHI_objective = 597 } MFU_CHI_target_597_valid = yes }
+    }
+}
+MFU_CHI_operation_active = {
+    MFU_CHI_full_scope = yes
+    has_country_flag = MFU_CHI_initialized
+    check_variable = { MFU_CHI_phase = 2 }
+    check_variable = { MFU_CHI_window_days > 0 }
+    has_country_flag = MFU_CHI_hold_ready
+    NOT = { check_variable = { MFU_CHI_request = 3 } }
+    MFU_CHI_objective_valid = yes
+}

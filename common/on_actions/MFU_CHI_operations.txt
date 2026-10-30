@@ -1,0 +1,7 @@
+on_actions = {
+    on_daily_CHI = { effect = { MFU_CHI_daily = yes } }
+    on_weekly_CHI = { effect = { MFU_CHI_weekly = yes } }
+    # Shipped references: ROOT capitulates; FROM is annexed.
+    on_capitulation = { effect = { if = { limit = { tag = CHI has_country_flag = MFU_CHI_initialized } MFU_CHI_cleanup = yes } } }
+    on_annex = { effect = { FROM = { if = { limit = { tag = CHI has_country_flag = MFU_CHI_initialized } MFU_CHI_cleanup = yes } } } }
+}

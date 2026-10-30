@@ -1,0 +1,5 @@
+MFU_CHI_USA_preferences = {
+    icon = generic_operation
+    allowed = { tag = USA }
+    visible = { MFU_CHI_USA_can_request = yes }
+}

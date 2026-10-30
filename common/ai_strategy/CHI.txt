@@ -15,6 +15,7 @@ CHI_help_RAJ = {
 	}
 	
 	enable = {
+		NOT = { MFU_CHI_full_scope = yes }
 		OR = {
 			640 = {
 				OR = {
@@ -119,12 +120,32 @@ CHI_donthelp_RAJ = {
 	}
 }
 
+# Manual opportunities only in the ordinary AI China war, at every date/support
+# level. Legacy scripted-war policies are mutually excluded below in this scope.
+MFU_CHI_cautious_map_war = {
+	allowed = { tag = CHI }
+	enable = { MFU_CHI_cautious_map_war_scope = yes NOT = { MFU_CHI_full_package_enabled = yes } }
+	abort_when_not_enabled = yes
+
+	ai_strategy = {
+		type = front_control
+		tag = JAP
+		# Also outranks the priority-4 Burma front rule on a Japan-facing front.
+		priority = 5
+		ordertype = front
+		execution_type = careful
+		manual_attack = yes
+		execute_order = no
+	}
+}
+
 CHI_scripted_war_no_battleplan = {
 	allowed = { 
 		tag = CHI 
 	}
 	
 	enable = {
+		NOT = { MFU_CHI_cautious_map_war_scope = yes }
 		OR =  {
 			check_variable = {
 				var = CHI_state_of_army_var
@@ -162,6 +183,7 @@ CHI_scripted_war_careful_battleplan = {
 	}
 	
 	enable = {
+		NOT = { MFU_CHI_cautious_map_war_scope = yes }
 		check_variable = {
 			var = CHI_state_of_army_var
 			value = 20
@@ -198,6 +220,7 @@ CHI_scripted_war_normal_battleplan = {
 	}
 	
 	enable = {
+		NOT = { MFU_CHI_cautious_map_war_scope = yes }
 		check_variable = {	
 			var = CHI_state_of_army_var
 			value = 40
@@ -235,6 +258,7 @@ CHI_scripted_war_rush_battleplan = {
 	}
 	
 	enable = {
+		NOT = { MFU_CHI_cautious_map_war_scope = yes }
 		check_variable = {
 			var = CHI_state_of_army_var
 			value = 60

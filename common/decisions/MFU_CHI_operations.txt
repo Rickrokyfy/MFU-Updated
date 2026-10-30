@@ -1,0 +1,127 @@
+MFU_CHI_USA_preferences = {
+MFU_CHI_request_north = {
+
+    icon = generic_operation
+    allowed = { tag = USA }
+    visible = { MFU_CHI_USA_can_request = yes }
+    available = {
+        MFU_CHI_USA_can_request = yes
+        NOT = { has_country_flag = MFU_CHI_request_cooldown }
+        CHI = { check_variable = { MFU_CHI_request = 0 } MFU_CHI_target_609_valid = yes check_variable = { MFU_CHI_phase < 2 } }
+    }
+    cost = 0
+    days_re_enable = 1
+    ai_will_do = { factor = 0 }
+    complete_effect = {
+        set_country_flag = { flag = MFU_CHI_request_cooldown days = 60 value = 1 }
+        CHI = {
+            set_variable = { MFU_CHI_request = 1 }
+            set_variable = { MFU_CHI_request_days = 30 }
+            
+        }
+    }
+}
+MFU_CHI_request_coast = {
+
+    icon = generic_operation
+    allowed = { tag = USA }
+    visible = { MFU_CHI_USA_can_request = yes }
+    available = {
+        MFU_CHI_USA_can_request = yes
+        NOT = { has_country_flag = MFU_CHI_request_cooldown }
+        CHI = { check_variable = { MFU_CHI_request = 0 } MFU_CHI_target_597_valid = yes check_variable = { MFU_CHI_phase < 2 } }
+    }
+    cost = 0
+    days_re_enable = 1
+    ai_will_do = { factor = 0 }
+    complete_effect = {
+        set_country_flag = { flag = MFU_CHI_request_cooldown days = 60 value = 1 }
+        CHI = {
+            set_variable = { MFU_CHI_request = 2 }
+            set_variable = { MFU_CHI_request_days = 30 }
+            
+        }
+    }
+}
+MFU_CHI_request_recover = {
+
+    icon = generic_operation
+    allowed = { tag = USA }
+    visible = { MFU_CHI_USA_can_request = yes }
+    available = {
+        MFU_CHI_USA_can_request = yes
+        NOT = { has_country_flag = MFU_CHI_request_cooldown }
+        CHI = { check_variable = { MFU_CHI_request = 0 }  }
+    }
+    cost = 0
+    days_re_enable = 1
+    ai_will_do = { factor = 0 }
+    complete_effect = {
+        set_country_flag = { flag = MFU_CHI_request_cooldown days = 60 value = 1 }
+        CHI = {
+            set_variable = { MFU_CHI_request = 3 }
+            set_variable = { MFU_CHI_request_days = 30 }
+            MFU_CHI_recover = yes
+        }
+    }
+}
+MFU_CHI_cancel_request = {
+
+    icon = generic_operation
+    allowed = { tag = USA }
+    visible = { MFU_CHI_USA_can_request = yes CHI = { check_variable = { MFU_CHI_request > 0 } } }
+    available = { MFU_CHI_USA_can_request = yes CHI = { check_variable = { MFU_CHI_request > 0 } } }
+    cost = 0
+    days_re_enable = 1
+    ai_will_do = { factor = 0 }
+    complete_effect = { CHI = { MFU_CHI_clear_request = yes } }
+}
+MFU_CHI_status_pending = {
+
+    icon = generic_operation
+    allowed = { tag = USA }
+    visible = { MFU_CHI_USA_can_request = yes CHI = { check_variable = { MFU_CHI_request > 0 } check_variable = { MFU_CHI_request < 3 } NOT = { MFU_CHI_operation_active = yes } } }
+    available = { always = no }
+    ai_will_do = { factor = 0 }
+}
+MFU_CHI_status_active = {
+
+    icon = generic_operation
+    allowed = { tag = USA }
+    visible = { MFU_CHI_USA_can_request = yes CHI = { check_variable = { MFU_CHI_request > 0 } check_variable = { MFU_CHI_request < 3 } MFU_CHI_operation_active = yes } }
+    available = { always = no }
+    ai_will_do = { factor = 0 }
+}
+MFU_CHI_status_recovery = {
+
+    icon = generic_operation
+    allowed = { tag = USA }
+    visible = { MFU_CHI_USA_can_request = yes CHI = { NOT = { check_variable = { MFU_CHI_phase > 0 } } } }
+    available = { always = no }
+    ai_will_do = { factor = 0 }
+}
+MFU_CHI_status_preparation = {
+
+    icon = generic_operation
+    allowed = { tag = USA }
+    visible = { MFU_CHI_USA_can_request = yes CHI = { check_variable = { MFU_CHI_phase = 1 } } }
+    available = { always = no }
+    ai_will_do = { factor = 0 }
+}
+MFU_CHI_status_offensive = {
+
+    icon = generic_operation
+    allowed = { tag = USA }
+    visible = { MFU_CHI_USA_can_request = yes CHI = { MFU_CHI_operation_active = yes } }
+    available = { always = no }
+    ai_will_do = { factor = 0 }
+}
+MFU_CHI_status_requested_recovery = {
+
+    icon = generic_operation
+    allowed = { tag = USA }
+    visible = { MFU_CHI_USA_can_request = yes CHI = { check_variable = { MFU_CHI_request = 3 } } }
+    available = { always = no }
+    ai_will_do = { factor = 0 }
+}
+}

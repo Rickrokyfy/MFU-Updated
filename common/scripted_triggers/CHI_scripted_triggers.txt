@@ -213,3 +213,17 @@ CHI_plane_seller_for_subsidy = {
 	}
 }
 
+
+# Prototype scope: ordinary map war only; legacy scenario behavior stays intact.
+MFU_CHI_cautious_map_war_scope = {
+	tag = CHI
+	exists = yes
+	is_ai = yes
+	has_capitulated = no
+	has_war_with = JAP
+	JAP = { exists = yes }
+	282 = {
+		NOT = { has_state_flag = no_china_war_state_flag }
+		NOT = { has_state_flag = no_partial_china_war_state_flag }
+	}
+}

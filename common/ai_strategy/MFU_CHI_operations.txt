@@ -1,0 +1,53 @@
+MFU_CHI_package_recovery = {
+    allowed = { tag = CHI }
+    enable = { MFU_CHI_full_scope = yes NOT = { MFU_CHI_operation_active = yes } }
+    abort_when_not_enabled = yes
+    ai_strategy = {
+        type = front_control
+        tag = JAP
+        tag = MAN
+        tag = RCC
+        priority = 6
+        ordertype = front
+        execution_type = careful
+        manual_attack = no
+        execute_order = no
+    }
+}
+MFU_CHI_package_offense = {
+    allowed = { tag = CHI }
+    enable = { MFU_CHI_operation_active = yes }
+    abort_when_not_enabled = yes
+    # execute_order deliberately omitted: engine decides whether to execute.
+    ai_strategy = {
+        type = front_control
+        tag = JAP
+        tag = MAN
+        tag = RCC
+        priority = 6
+        ordertype = front
+        execution_type = careful
+        manual_attack = yes
+    }
+}
+MFU_CHI_prefer_609 = {
+
+    allowed = { tag = CHI }
+    enable = { MFU_CHI_operation_active = yes check_variable = { MFU_CHI_objective = 609 } }
+    abort_when_not_enabled = yes
+    ai_strategy = { type = force_concentration_target_weight state = 609 value = 25 }
+}
+MFU_CHI_prefer_597 = {
+
+    allowed = { tag = CHI }
+    enable = { MFU_CHI_operation_active = yes check_variable = { MFU_CHI_objective = 597 } }
+    abort_when_not_enabled = yes
+    ai_strategy = { type = force_concentration_target_weight state = 597 value = 25 }
+}
+MFU_CHI_requested_coast_defense = {
+
+    allowed = { tag = CHI }
+    enable = { MFU_CHI_full_scope = yes MFU_CHI_USA_interface_enabled = yes check_variable = { MFU_CHI_request = 2 } MFU_CHI_target_597_valid = yes }
+    abort_when_not_enabled = yes
+    ai_strategy = { type = front_unit_request state = 597 value = 10 }
+}

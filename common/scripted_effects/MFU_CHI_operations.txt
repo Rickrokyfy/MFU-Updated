@@ -1,0 +1,272 @@
+MFU_CHI_clear_request = {
+
+    set_variable = { MFU_CHI_request = 0 }
+    set_variable = { MFU_CHI_request_days = 0 }
+}
+MFU_CHI_cleanup = {
+    clr_country_flag = MFU_CHI_initialized
+    clr_country_flag = MFU_CHI_entry_ready
+    clr_country_flag = MFU_CHI_hold_ready
+    clear_variable = MFU_CHI_phase
+    clear_variable = MFU_CHI_recovery_days
+    clear_variable = MFU_CHI_prepared_weeks
+    clear_variable = MFU_CHI_window_days
+    clear_variable = MFU_CHI_request
+    clear_variable = MFU_CHI_request_days
+    clear_variable = MFU_CHI_objective
+    clear_variable = MFU_CHI_fill_0
+    clear_variable = MFU_CHI_fill_1
+    clear_variable = MFU_CHI_fill_2
+    clear_variable = MFU_CHI_fill_3
+    clear_variable = MFU_CHI_fill_4
+    clear_variable = MFU_CHI_fill_5
+    clear_variable = MFU_CHI_fill_6
+    clear_variable = MFU_CHI_fill_7
+    clear_variable = MFU_CHI_fill_8
+    clear_variable = MFU_CHI_fill_9
+    clear_variable = MFU_CHI_demand_0
+    clear_variable = MFU_CHI_demand_1
+    clear_variable = MFU_CHI_demand_2
+    clear_variable = MFU_CHI_demand_3
+    clear_variable = MFU_CHI_demand_4
+    clear_variable = MFU_CHI_demand_5
+    clear_variable = MFU_CHI_demand_6
+    clear_variable = MFU_CHI_demand_7
+    clear_variable = MFU_CHI_demand_8
+    clear_variable = MFU_CHI_demand_9
+    USA = { clr_country_flag = MFU_CHI_request_cooldown }
+}
+MFU_CHI_recover = {
+
+    set_variable = { MFU_CHI_phase = 0 }
+    set_variable = { MFU_CHI_recovery_days = 14 }
+    set_variable = { MFU_CHI_prepared_weeks = 0 }
+    set_variable = { MFU_CHI_window_days = 0 }
+    set_variable = { MFU_CHI_objective = 0 }
+}
+MFU_CHI_initialize = {
+
+    set_country_flag = MFU_CHI_initialized
+    MFU_CHI_clear_request = yes
+    MFU_CHI_recover = yes
+}
+MFU_CHI_select_objective = {
+
+    set_variable = { MFU_CHI_objective = 0 }
+    if = {
+        limit = { check_variable = { MFU_CHI_request = 2 } MFU_CHI_target_597_valid = yes }
+        set_variable = { MFU_CHI_objective = 597 }
+    }
+    else_if = {
+        limit = { MFU_CHI_target_609_valid = yes }
+        set_variable = { MFU_CHI_objective = 609 }
+    }
+    else_if = {
+        limit = { MFU_CHI_target_597_valid = yes }
+        set_variable = { MFU_CHI_objective = 597 }
+    }
+}
+MFU_CHI_measure_readiness = {
+
+    set_country_flag = MFU_CHI_entry_ready
+    set_country_flag = MFU_CHI_hold_ready
+
+    # Archetype totals include the model families; never sum variants twice.
+    set_variable = { MFU_CHI_demand_0 = num_target_equipment_in_armies@infantry_equipment }
+    set_variable = { MFU_CHI_fill_0 = 1 }
+    if = {
+        limit = { check_variable = { MFU_CHI_demand_0 > 0 } }
+        set_variable = { MFU_CHI_fill_0 = num_equipment_in_armies@infantry_equipment }
+        divide_variable = { MFU_CHI_fill_0 = MFU_CHI_demand_0 }
+        clamp_variable = { var = MFU_CHI_fill_0 min = 0 max = 1 }
+        if = { limit = { check_variable = { MFU_CHI_fill_0 < 0.90 } } clr_country_flag = MFU_CHI_entry_ready }
+        if = { limit = { check_variable = { MFU_CHI_fill_0 < 0.80 } } clr_country_flag = MFU_CHI_hold_ready }
+    }
+
+    # Archetype totals include the model families; never sum variants twice.
+    set_variable = { MFU_CHI_demand_1 = num_target_equipment_in_armies@horse_equipment }
+    set_variable = { MFU_CHI_fill_1 = 1 }
+    if = {
+        limit = { check_variable = { MFU_CHI_demand_1 > 0 } }
+        set_variable = { MFU_CHI_fill_1 = num_equipment_in_armies@horse_equipment }
+        divide_variable = { MFU_CHI_fill_1 = MFU_CHI_demand_1 }
+        clamp_variable = { var = MFU_CHI_fill_1 min = 0 max = 1 }
+        if = { limit = { check_variable = { MFU_CHI_fill_1 < 0.90 } } clr_country_flag = MFU_CHI_entry_ready }
+        if = { limit = { check_variable = { MFU_CHI_fill_1 < 0.80 } } clr_country_flag = MFU_CHI_hold_ready }
+    }
+
+    # Archetype totals include the model families; never sum variants twice.
+    set_variable = { MFU_CHI_demand_2 = num_target_equipment_in_armies@radio_equipment }
+    set_variable = { MFU_CHI_fill_2 = 1 }
+    if = {
+        limit = { check_variable = { MFU_CHI_demand_2 > 0 } }
+        set_variable = { MFU_CHI_fill_2 = num_equipment_in_armies@radio_equipment }
+        divide_variable = { MFU_CHI_fill_2 = MFU_CHI_demand_2 }
+        clamp_variable = { var = MFU_CHI_fill_2 min = 0 max = 1 }
+        if = { limit = { check_variable = { MFU_CHI_fill_2 < 0.90 } } clr_country_flag = MFU_CHI_entry_ready }
+        if = { limit = { check_variable = { MFU_CHI_fill_2 < 0.80 } } clr_country_flag = MFU_CHI_hold_ready }
+    }
+
+    # Archetype totals include the model families; never sum variants twice.
+    set_variable = { MFU_CHI_demand_3 = num_target_equipment_in_armies@support_equipment }
+    set_variable = { MFU_CHI_fill_3 = 1 }
+    if = {
+        limit = { check_variable = { MFU_CHI_demand_3 > 0 } }
+        set_variable = { MFU_CHI_fill_3 = num_equipment_in_armies@support_equipment }
+        divide_variable = { MFU_CHI_fill_3 = MFU_CHI_demand_3 }
+        clamp_variable = { var = MFU_CHI_fill_3 min = 0 max = 1 }
+        if = { limit = { check_variable = { MFU_CHI_fill_3 < 0.90 } } clr_country_flag = MFU_CHI_entry_ready }
+        if = { limit = { check_variable = { MFU_CHI_fill_3 < 0.80 } } clr_country_flag = MFU_CHI_hold_ready }
+    }
+
+    # Archetype totals include the model families; never sum variants twice.
+    set_variable = { MFU_CHI_demand_4 = num_target_equipment_in_armies@artillery_equipment }
+    set_variable = { MFU_CHI_fill_4 = 1 }
+    if = {
+        limit = { check_variable = { MFU_CHI_demand_4 > 0 } }
+        set_variable = { MFU_CHI_fill_4 = num_equipment_in_armies@artillery_equipment }
+        divide_variable = { MFU_CHI_fill_4 = MFU_CHI_demand_4 }
+        clamp_variable = { var = MFU_CHI_fill_4 min = 0 max = 1 }
+        if = { limit = { check_variable = { MFU_CHI_fill_4 < 0.90 } } clr_country_flag = MFU_CHI_entry_ready }
+        if = { limit = { check_variable = { MFU_CHI_fill_4 < 0.80 } } clr_country_flag = MFU_CHI_hold_ready }
+    }
+
+    # Archetype totals include the model families; never sum variants twice.
+    set_variable = { MFU_CHI_demand_5 = num_target_equipment_in_armies@field_gun_equipment }
+    set_variable = { MFU_CHI_fill_5 = 1 }
+    if = {
+        limit = { check_variable = { MFU_CHI_demand_5 > 0 } }
+        set_variable = { MFU_CHI_fill_5 = num_equipment_in_armies@field_gun_equipment }
+        divide_variable = { MFU_CHI_fill_5 = MFU_CHI_demand_5 }
+        clamp_variable = { var = MFU_CHI_fill_5 min = 0 max = 1 }
+        if = { limit = { check_variable = { MFU_CHI_fill_5 < 0.90 } } clr_country_flag = MFU_CHI_entry_ready }
+        if = { limit = { check_variable = { MFU_CHI_fill_5 < 0.80 } } clr_country_flag = MFU_CHI_hold_ready }
+    }
+
+    # Archetype totals include the model families; never sum variants twice.
+    set_variable = { MFU_CHI_demand_6 = num_target_equipment_in_armies@anti_air_equipment }
+    set_variable = { MFU_CHI_fill_6 = 1 }
+    if = {
+        limit = { check_variable = { MFU_CHI_demand_6 > 0 } }
+        set_variable = { MFU_CHI_fill_6 = num_equipment_in_armies@anti_air_equipment }
+        divide_variable = { MFU_CHI_fill_6 = MFU_CHI_demand_6 }
+        clamp_variable = { var = MFU_CHI_fill_6 min = 0 max = 1 }
+        if = { limit = { check_variable = { MFU_CHI_fill_6 < 0.90 } } clr_country_flag = MFU_CHI_entry_ready }
+        if = { limit = { check_variable = { MFU_CHI_fill_6 < 0.80 } } clr_country_flag = MFU_CHI_hold_ready }
+    }
+
+    # Archetype totals include the model families; never sum variants twice.
+    set_variable = { MFU_CHI_demand_7 = num_target_equipment_in_armies@pack_artillery_equipment }
+    set_variable = { MFU_CHI_fill_7 = 1 }
+    if = {
+        limit = { check_variable = { MFU_CHI_demand_7 > 0 } }
+        set_variable = { MFU_CHI_fill_7 = num_equipment_in_armies@pack_artillery_equipment }
+        divide_variable = { MFU_CHI_fill_7 = MFU_CHI_demand_7 }
+        clamp_variable = { var = MFU_CHI_fill_7 min = 0 max = 1 }
+        if = { limit = { check_variable = { MFU_CHI_fill_7 < 0.90 } } clr_country_flag = MFU_CHI_entry_ready }
+        if = { limit = { check_variable = { MFU_CHI_fill_7 < 0.80 } } clr_country_flag = MFU_CHI_hold_ready }
+    }
+
+    # Archetype totals include the model families; never sum variants twice.
+    set_variable = { MFU_CHI_demand_8 = num_target_equipment_in_armies@heavy_artillery_equipment }
+    set_variable = { MFU_CHI_fill_8 = 1 }
+    if = {
+        limit = { check_variable = { MFU_CHI_demand_8 > 0 } }
+        set_variable = { MFU_CHI_fill_8 = num_equipment_in_armies@heavy_artillery_equipment }
+        divide_variable = { MFU_CHI_fill_8 = MFU_CHI_demand_8 }
+        clamp_variable = { var = MFU_CHI_fill_8 min = 0 max = 1 }
+        if = { limit = { check_variable = { MFU_CHI_fill_8 < 0.90 } } clr_country_flag = MFU_CHI_entry_ready }
+        if = { limit = { check_variable = { MFU_CHI_fill_8 < 0.80 } } clr_country_flag = MFU_CHI_hold_ready }
+    }
+
+    # Archetype totals include the model families; never sum variants twice.
+    set_variable = { MFU_CHI_demand_9 = num_target_equipment_in_armies@motorized_equipment }
+    set_variable = { MFU_CHI_fill_9 = 1 }
+    if = {
+        limit = { check_variable = { MFU_CHI_demand_9 > 0 } }
+        set_variable = { MFU_CHI_fill_9 = num_equipment_in_armies@motorized_equipment }
+        divide_variable = { MFU_CHI_fill_9 = MFU_CHI_demand_9 }
+        clamp_variable = { var = MFU_CHI_fill_9 min = 0 max = 1 }
+        if = { limit = { check_variable = { MFU_CHI_fill_9 < 0.90 } } clr_country_flag = MFU_CHI_entry_ready }
+        if = { limit = { check_variable = { MFU_CHI_fill_9 < 0.80 } } clr_country_flag = MFU_CHI_hold_ready }
+    }
+
+    # Fail closed for an empty/unsupported essential infantry demand; no divide by zero.
+    if = {
+        limit = { NOT = { check_variable = { MFU_CHI_demand_0 > 0 } } }
+        clr_country_flag = MFU_CHI_entry_ready
+        clr_country_flag = MFU_CHI_hold_ready
+    }
+
+}
+MFU_CHI_daily = {
+
+    if = {
+        limit = { MFU_CHI_full_scope = yes }
+        if = { limit = { NOT = { has_country_flag = MFU_CHI_initialized } } MFU_CHI_initialize = yes }
+        if = { limit = { check_variable = { MFU_CHI_recovery_days > 0 } } subtract_from_variable = { MFU_CHI_recovery_days = 1 } }
+        if = { limit = { check_variable = { MFU_CHI_window_days > 0 } } subtract_from_variable = { MFU_CHI_window_days = 1 } }
+        if = { limit = { check_variable = { MFU_CHI_request_days > 0 } } subtract_from_variable = { MFU_CHI_request_days = 1 } }
+        if = {
+            limit = {
+                check_variable = { MFU_CHI_request > 0 }
+                OR = {
+                    NOT = { check_variable = { MFU_CHI_request_days > 0 } }
+                    NOT = { MFU_CHI_USA_interface_enabled = yes }
+                    USA = { OR = { exists = no is_ai = yes has_war_with = CHI } }
+                    AND = { check_variable = { MFU_CHI_request = 1 } NOT = { MFU_CHI_target_609_valid = yes } }
+                    AND = { check_variable = { MFU_CHI_request = 2 } NOT = { MFU_CHI_target_597_valid = yes } }
+                }
+            }
+            MFU_CHI_clear_request = yes
+        }
+        if = {
+            limit = {
+                check_variable = { MFU_CHI_phase = 2 }
+                OR = {
+                    NOT = { check_variable = { MFU_CHI_window_days > 0 } }
+                    NOT = { MFU_CHI_objective_valid = yes }
+                    check_variable = { MFU_CHI_request = 3 }
+                }
+            }
+            MFU_CHI_recover = yes
+        }
+    }
+    else_if = { limit = { has_country_flag = MFU_CHI_initialized } MFU_CHI_cleanup = yes }
+}
+MFU_CHI_weekly = {
+
+    if = {
+        limit = { MFU_CHI_full_scope = yes has_country_flag = MFU_CHI_initialized }
+        MFU_CHI_measure_readiness = yes
+        if = {
+            limit = { check_variable = { MFU_CHI_phase = 2 } }
+            if = {
+                limit = { NOT = { has_country_flag = MFU_CHI_hold_ready } }
+                MFU_CHI_recover = yes
+            }
+        }
+        else_if = {
+            limit = {
+                NOT = { check_variable = { MFU_CHI_recovery_days > 0 } }
+                NOT = { check_variable = { MFU_CHI_request = 3 } }
+                has_country_flag = MFU_CHI_entry_ready
+                OR = { MFU_CHI_target_609_valid = yes MFU_CHI_target_597_valid = yes }
+            }
+            MFU_CHI_select_objective = yes
+            set_variable = { MFU_CHI_phase = 1 }
+            add_to_variable = { MFU_CHI_prepared_weeks = 1 }
+            if = {
+                limit = { check_variable = { MFU_CHI_prepared_weeks > 1 } }
+                set_variable = { MFU_CHI_phase = 2 }
+                set_variable = { MFU_CHI_window_days = 14 }
+                set_variable = { MFU_CHI_prepared_weeks = 0 }
+            }
+        }
+        else = {
+            set_variable = { MFU_CHI_phase = 0 }
+            set_variable = { MFU_CHI_prepared_weeks = 0 }
+            set_variable = { MFU_CHI_objective = 0 }
+        }
+    }
+}

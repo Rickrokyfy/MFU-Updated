@@ -1,0 +1,3 @@
+# Tester switches: full=no restores the minimal posture, USA=no removes requests.
+MFU_CHI_full_package_enabled = { always = yes }
+MFU_CHI_USA_interface_enabled = { always = yes }

@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "assertions": 459,
+  "scope_combinations": 128,
+  "essential_archetypes": 10,
+  "modified_existing": [
+    "common/ai_strategy/CHI.txt"
+  ],
+  "new_files": [
+    "common/ai_strategy/MFU_CHI_operations.txt",
+    "common/decisions/MFU_CHI_operations.txt",
+    "common/decisions/categories/MFU_CHI_operations.txt",
+    "common/on_actions/MFU_CHI_operations.txt",
+    "common/scripted_effects/MFU_CHI_operations.txt",
+    "common/scripted_triggers/MFU_CHI_operations.txt",
+    "common/scripted_triggers/MFU_CHI_package_config.txt",
+    "localisation/English/MFU_CHI_operations_l_english.yml"
+  ],
+  "engine_execution": false,
+  "runtime": false
+}
